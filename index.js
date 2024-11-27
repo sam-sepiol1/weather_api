@@ -14,7 +14,7 @@ let API_WEATHER_URL;
 
 
 async function getCities(city_name) {
-    API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=10&appid=${apiKey}`;
+    API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&appid=${apiKey}`;
     const response = await fetch(API_CITIES_URL);
     const data = await response.json();
     return data;
@@ -36,6 +36,12 @@ app.use(cors());
 
 app.get('/', (req, res) => {
     res.json({ message: 'Hello World!' })
+});
+
+app.get('/cities/:city*', async (req, res) => {
+    let city_name = req.params.city;
+    let cities = await getCities(city_name);
+    res.json(cities);
 });
 
 app.get('/weather/:city', async (req, res) => {
