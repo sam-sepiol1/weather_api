@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
     res.json({ message: 'Hello World!' })
 });
 
-app.get('/cities/:city*', async (req, res) => {
+app.get('/cities/:city', async (req, res) => {
     let city_name = req.params.city;
     let cities = await getCities(city_name);
     res.json(cities);
