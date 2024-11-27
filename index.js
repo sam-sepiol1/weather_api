@@ -14,7 +14,7 @@ let API_WEATHER_URL;
 
 
 async function getCities(city_name) {
-    API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&appid=${apiKey}`;
+    API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=10&appid=${apiKey}`;
     const response = await fetch(API_CITIES_URL);
     const data = await response.json();
     return data;
