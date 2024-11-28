@@ -13,6 +13,19 @@ let API_CITIES_URL;
 let API_WEATHER_URL;
 
 
+const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000' ,'https://13-weather-l0mq87u22-sam-sepiols-projects-c25eb3a9.vercel.app'];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 async function getCities(city_name) {
     API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=10&appid=${apiKey}`;
     const response = await fetch(API_CITIES_URL);
@@ -32,21 +45,6 @@ async function getWeather(city_name) {
     return weather;
 }
 
-const whitelist = ['http://localhost:3000', 'https://13-weather-l0mq87u22-sam-sepiols-projects-c25eb3a9.vercel.app'];
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-};
-app.use(cors(corsOptions));
-
-app.use(cors({ }));
-
-
 app.get('/', (req, res) => {
     res.json({ message: 'Hello World!' })
 });
@@ -63,7 +61,5 @@ app.get('/weather/:city', async (req, res) => {
     let weather = await getWeather(city_name);
     res.json(weather);
 });
-
-
 
 app.listen(port, () => {});
