@@ -32,7 +32,20 @@ async function getWeather(city_name) {
     return weather;
 }
 
-app.use(cors()); 
+const whitelist = ['http://localhost:3000', 'https://13-weather-l0mq87u22-sam-sepiols-projects-c25eb3a9.vercel.app'];
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+};
+app.use(cors(corsOptions));
+
+app.use(cors({ }));
+
 
 app.get('/', (req, res) => {
     res.json({ message: 'Hello World!' })
