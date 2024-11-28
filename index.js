@@ -13,7 +13,7 @@ let API_CITIES_URL;
 let API_WEATHER_URL;
 
 
-const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000' ,'https://13-weather-l0mq87u22-sam-sepiols-projects-c25eb3a9.vercel.app'];
+const whitelist = ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000' ,'https://13-weather-l0mq87u22-sam-sepiols-projects-c25eb3a9.vercel.app', 'http://127.0.0.1:3000/index.html'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
