@@ -13,7 +13,7 @@ let API_CITIES_URL;
 let API_WEATHER_URL;
 
 
-const whitelist = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+const whitelist = ['http://localhost:3000', 'http://127.0.0.1:3000', 'https://weather-app-zeta-inky.vercel.app/'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || whitelist.indexOf(origin) !== -1) {
