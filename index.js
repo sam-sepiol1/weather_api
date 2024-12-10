@@ -22,9 +22,10 @@ const corsOptions = {
         } else {
             callback(new Error('Not allowed by CORS'));
         }
-    },
+    },  
     optionsSuccessStatus: 200
 };
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 
 async function getCities(city_name) {
