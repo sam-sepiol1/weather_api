@@ -5,7 +5,13 @@ import fetch from 'node-fetch';
 
 dotenv.config();
 const app = express();
-app.use(cors())
+const corsOptions = {
+    origin: 'https://weather-app-zeta-inky.vercel.app/', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, // 
+  };
+  
+  app.use(cors(corsOptions));
 
 const port = 3000;
 const apiKey = process.env.API_KEY;
