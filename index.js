@@ -9,7 +9,7 @@ const corsOptions = {
     origin: [
       'https://weather-app-zeta-inky.vercel.app',
       'http://localhost:3000',
-      'http://127.0.0.1:3000/index.html',
+      'http://127.0.0.1:3000',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: false,
