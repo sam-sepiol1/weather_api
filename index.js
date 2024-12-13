@@ -19,9 +19,26 @@ const corsOptions = {
 
 const port = 3000;
 const apiKey = process.env.API_KEY;
+const unsplashApiKey = process.env.UNSPLASH_API_KEY;
 
 let API_CITIES_URL;
 let API_WEATHER_URL;
+
+async function getImages(city_name) {
+    API_CITIES_URL = `https://api.unsplash.com/search/photos?query=${city_name}&client_id=${unsplashApiKey}`;
+    const response = await fetch(API_CITIES_URL);
+    const data = await response.json();
+    return data;
+}
+
+async function getRandomImage() {
+    API_CITIES_URL = `https://api.unsplash.com/photos/random?query=nature&client_id=${unsplashApiKey}`;
+    const response = await fetch(API_CITIES_URL);
+    const data = await response.json();
+    return data;
+}
+
+
 
 async function getCities(city_name) {
     API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=10&appid=${apiKey}`;
@@ -57,6 +74,17 @@ app.get('/weather/:city', async (req, res) => {
 
     let weather = await getWeather(city_name);
     res.json(weather);
+});
+
+app.get('/images/:city', async (req, res) => {
+    let city_name = req.params.city;
+    let images = await getImages(city_name);
+    res.json(images);
+});
+
+app.get('/image', async (req, res) => {
+    let images = await getRandomImage();
+    res.json(images);
 });
 
 app.listen(port, () => {});
