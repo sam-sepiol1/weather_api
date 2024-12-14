@@ -82,9 +82,7 @@ app.get('/weather/:city', async (req, res) => {
 app.get('/weather/:lat/:lon', async (req, res) => {
 	let lat = req.params.lat;
 	let lon = req.params.lon;
-
-	console.log(lat, lon);
-
+	
 	let weather = await getWeatherCoords(lat, lon);
 	res.json(weather);
 });
