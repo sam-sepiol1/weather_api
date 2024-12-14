@@ -11,7 +11,7 @@ const corsOptions = {
 	credentials: false,
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 const port = 3000;
 const apiKey = process.env.API_KEY;
