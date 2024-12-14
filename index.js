@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 
+document.cookie = "__vercel_live_token=value; SameSite=None; Secure";
+
 dotenv.config();
 const app = express();
 const corsOptions = {
@@ -11,7 +13,7 @@ const corsOptions = {
 	credentials: false,
 };
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 const port = 3000;
 const apiKey = process.env.API_KEY;
@@ -80,6 +82,8 @@ app.get('/weather/:city', async (req, res) => {
 app.get('/weather/:lat/:lon', async (req, res) => {
 	let lat = req.params.lat;
 	let lon = req.params.lon;
+
+	console.log(lat, lon);
 
 	let weather = await getWeatherCoords(lat, lon);
 	res.json(weather);
