@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
 
-document.cookie = "__vercel_live_token=value; SameSite=None; Secure";
+// document.cookie = "__vercel_live_token=value; SameSite=None; Secure";
 
 dotenv.config();
 const app = express();
