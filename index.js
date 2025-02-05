@@ -2,18 +2,28 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import fetch from 'node-fetch';
-
-// document.cookie = "__vercel_live_token=value; SameSite=None; Secure";
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 const app = express();
+
 const corsOptions = {
 	origin: ['https://weather-app-zeta-inky.vercel.app', 'http://localhost:3000', 'http://127.0.0.1:3000'],
-	methods: ['GET', 'POST', 'PUT', 'DELETE'],
+	methods: ['GET', 'POST'],
 	credentials: false,
 };
 
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, 
+	max: 100, 
+	message: 'Too many requests from this IP, please try again after 15 minutes',
+});
+
+
+
 app.use(cors(corsOptions));
+app.use(limiter);
+
 
 const port = 3000;
 const apiKey = process.env.API_KEY;
