@@ -81,6 +81,20 @@ async function getCoordinates(city_name) {
 	return data;
 }
 
+async function getWeatherCoords(lat, lon) {
+	API_WEATHER_URL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=1`;
+	const response = await fetch(API_WEATHER_URL);
+
+	if (!response.ok) {
+		throw new Error('Error fetching weather data: ' + response.statusText);
+	}
+
+	const weather = await response.json();
+	return weather;
+}
+
+
+
 app.get('/', (req, res) => {
 	res.json({ message: 'Hello World!' });
 });
@@ -103,6 +117,14 @@ app.get('/images/:city', async (req, res) => {
 	let city_name = req.params.city;
 	let images = await getImages(city_name);
 	res.json(images);
+});
+
+app.get('/weather/:lat/:lon', async (req, res) => {
+	let lat = req.params.lat;
+	let lon = req.params.lon;
+	
+	let weather = await getWeatherCoords(lat, lon);
+	res.json(weather);
 });
 
 app.get('/image', async (req, res) => {
