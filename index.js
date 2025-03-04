@@ -47,7 +47,8 @@ async function getRandomImage() {
 }
 
 async function getCities(city_name) {
-	API_CITIES_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=10&appid=${apiKey}`;
+	let city_name_encoded = encodeURI(city_name);
+	API_CITIES_URL = `http://api.geonames.org/searchJSON?q=${city_name_encoded}&maxRows=10&featureClass=P&username=sam_sepiol`;
 	const response = await fetch(API_CITIES_URL);
 	const data = await response.json();
 	return data;
