@@ -66,7 +66,7 @@ async function getWeather(city_name) {
 }
 
 async function getWeatherCoords(lat, lon) {
-	API_WEATHER_URL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+	API_WEATHER_URL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=1`;
 	const response = await fetch(API_WEATHER_URL);
 	const weather = await response.json();
 	return weather;	
