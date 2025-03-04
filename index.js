@@ -19,11 +19,8 @@ const limiter = rateLimit({
 	message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
-
-
 app.use(cors(corsOptions));
 app.use(limiter);
-
 
 const port = 3000;
 const apiKey = process.env.API_KEY;
@@ -57,25 +54,31 @@ async function getCities(city_name) {
 async function getWeather(city_name) {
 	let city = await getCities(city_name);
 
-	let lat = city.geonames[0].lat;
-	let lon = city.geonames[0].lng;
+	let coordinates = await getCoordinates(city_name);
+	let lat = coordinates[0].lat;
+	let lon = coordinates[0].lon;
 
 	API_WEATHER_URL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=1`;
 	const response = await fetch(API_WEATHER_URL);
 
 	if (!response.ok) {
-		throw new Error('Error fetching weather data');
+		throw new Error('Error fetching weather data: ' + response.statusText);
 	}
 
 	const weather = await response.json();
 	return weather;
 }
 
-async function getWeatherCoords(lat, lon) {
-	API_WEATHER_URL = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=1`;
+async function getCoordinates(city_name) {
+	API_WEATHER_URL = `http://api.openweathermap.org/geo/1.0/direct?q=${city_name}&limit=1&appid=${apiKey}`;
 	const response = await fetch(API_WEATHER_URL);
-	const weather = await response.json();
-	return weather;	
+
+	if (!response.ok) {
+		throw new Error('Error fetching coordinates: ' + response.statusText);
+	}
+
+	const data = await response.json();
+	return data;
 }
 
 app.get('/', (req, res) => {
@@ -95,13 +98,6 @@ app.get('/weather/:city', async (req, res) => {
 	res.json(weather);
 });
 
-app.get('/weather/:lat/:lon', async (req, res) => {
-	let lat = req.params.lat;
-	let lon = req.params.lon;
-	
-	let weather = await getWeatherCoords(lat, lon);
-	res.json(weather);
-});
 
 app.get('/images/:city', async (req, res) => {
 	let city_name = req.params.city;
